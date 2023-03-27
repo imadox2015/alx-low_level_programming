@@ -1,25 +1,36 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include "main.h"
 
-#define PASSWORD_LENGTH 14
+#define PASSWORD_LENGTH 100
 
 int main(void)
 {
-    char password[PASSWORD_LENGTH + 1];  // +1 for null terminator
-    const char *charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    int i;
+  char password[PASSWORD_LENGTH + 1]; /* +1 for null terminator */
+  int i, sum, diff, rand_num;
 
-    srand(time(NULL));  // Seed the random number generator
+  srand(time(NULL));
 
-    // Generate random password
-    for (i = 0; i < PASSWORD_LENGTH; i++) {
-        password[i] = charset[rand() % 62];
+  /* Generate random ASCII characters for password */
+  sum = 0;
+  for (i = 0; i < PASSWORD_LENGTH; i++)
+    {
+      rand_num = rand() % 78 + 48;
+      password[i] = rand_num;
+      sum += rand_num;
     }
-    password[i] = '\0';  // Add null terminator
 
-    // Print password
-    printf("%s", password);
+  /* Add null terminator to password */
+  password[PASSWORD_LENGTH] = '\0';
 
-    return 0;
+  /* Calculate difference to get desired checksum */
+  diff = 2772 - sum;
+
+  /* Add difference to last character of password to get desired checksum */
+  password[PASSWORD_LENGTH - 1] += diff;
+
+  printf("%s", password);
+
+  return (0);
 }
