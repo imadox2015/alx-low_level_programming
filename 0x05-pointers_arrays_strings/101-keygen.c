@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "main.h"
+#include <main.h>
 
 #define PASSWORD_LENGTH 100
 
@@ -21,14 +21,12 @@ int main(void)
       sum += rand_num;
     }
 
-  /* Add null terminator to password */
-  password[PASSWORD_LENGTH] = '\0';
-
   /* Calculate difference to get desired checksum */
   diff = 2772 - sum;
 
   /* Add difference to last character of password to get desired checksum */
-  password[PASSWORD_LENGTH - 1] += diff;
+  password[PASSWORD_LENGTH - 2] = diff / 10 + '0';
+  password[PASSWORD_LENGTH - 1] = diff % 10 + '0';
 
   printf("%s", password);
 
